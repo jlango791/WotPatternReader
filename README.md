@@ -1,2 +1,2 @@
 # WotPatternReader
-WoT Pattern Reader
+WotPatternReader - a Wheel of Time Reference Application
