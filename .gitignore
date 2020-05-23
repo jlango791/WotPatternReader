@@ -1,0 +1,7 @@
+**/.vs
+/API/**/packages
+[Bb]in/
+[Oo]bj/
+#[Ll]og/
+node_modules
+/App/public/bundle.js
