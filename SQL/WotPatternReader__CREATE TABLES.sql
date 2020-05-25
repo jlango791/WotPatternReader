@@ -11,12 +11,18 @@ CREATE TABLE dbo.Book (
 );
 GO
 
+CREATE TABLE dbo.ChapterIcon (
+	Id int IDENTITY(1,1) PRIMARY KEY CLUSTERED
+	,ChapterIcon varchar(256) NOT NULL
+);
+GO
+
 CREATE TABLE dbo.Chapter (
 	Id int IDENTITY(1,1) PRIMARY KEY CLUSTERED
 	,BookId int NOT NULL FOREIGN KEY REFERENCES dbo.Book(Id)
 	,ChapterName varchar(256) NOT NULL
 	,ChapterNumber int					--make nullable to better support prologue and epilogue
-	,ChapterIcon varchar(1024) NULL
+	,ChapterIconId int FOREIGN KEY REFERENCES dbo.ChapterIcon(Id)
 	,IsPrologue bit NOT NULL DEFAULT 0
 	,IsEpilogue bit NOT NULL DEFAULT 0
 );
@@ -25,6 +31,13 @@ GO
 CREATE TABLE dbo.Player (
 	Id int IDENTITY(1,1) PRIMARY KEY CLUSTERED
 	,PlayerName varchar(256)
+);
+GO
+
+CREATE TABLE dbo.PlayerAlias (
+	Id int IDENTITY(1,1) PRIMARY KEY CLUSTERED
+	,PlayerId int NOT NULL FOREIGN KEY REFERENCES dbo.Player(Id)
+	,PlayerAliasName varchar(256) NOT NULL
 );
 GO
 
@@ -51,9 +64,16 @@ CREATE TABLE dbo.OrganizationDetail (
 );
 GO
 
-CREATE TABLE dbo.PlayerOrganization (
+--think this needs to be PlayerOrganizationChapter, since players may join or leave organizations over th course of the series - do we need both bridges?  not sure...
+--CREATE TABLE dbo.PlayerOrganization (
+--	PlayerId int NOT NULL FOREIGN KEY REFERENCES dbo.Player(Id)
+--	,OrganizationId int NOT NULL FOREIGN KEY REFERENCES dbo.Organization(Id)
+--);
+--GO
+CREATE TABLE dbo.PlayerOrganizationChapter (
 	PlayerId int NOT NULL FOREIGN KEY REFERENCES dbo.Player(Id)
 	,OrganizationId int NOT NULL FOREIGN KEY REFERENCES dbo.Organization(Id)
+	,ChapterId int NOT NULL FOREIGN KEY REFERENCES dbo.Chapter(Id)
 );
 GO
 
