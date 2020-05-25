@@ -5,17 +5,17 @@ CREATE TABLE dbo.Book (
 	Id int IDENTITY(1,1) PRIMARY KEY CLUSTERED
 	,BookTitle varchar(256) NOT NULL
 	,BookNumber int NULL
+	,Abbreviation varchar(12) NOT NULL
 	,IsNotMainline bit DEFAULT 0-- (for BWB, new spring; UI can have option to include non-mainline texts in results.)
+	,Synopsis varchar(max) NULL --some books will not have these, mostyl the BWB
 );
-GO
-ALTER TABLE dbo.Book ADD Abbreviation varchar(12) NOT NULL;
 GO
 
 CREATE TABLE dbo.Chapter (
 	Id int IDENTITY(1,1) PRIMARY KEY CLUSTERED
 	,BookId int NOT NULL FOREIGN KEY REFERENCES dbo.Book(Id)
 	,ChapterName varchar(256) NOT NULL
-	,ChapterNumber int NOT NULL			--make nullable to better support prologue and epilogue?
+	,ChapterNumber int					--make nullable to better support prologue and epilogue
 	,ChapterIcon varchar(1024) NULL
 	,IsPrologue bit NOT NULL DEFAULT 0
 	,IsEpilogue bit NOT NULL DEFAULT 0
